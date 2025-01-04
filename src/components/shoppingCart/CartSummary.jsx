@@ -6,37 +6,28 @@ import starIcon from "../../assets/home/icons/star-fill.png"; // Ícono de estre
 
 // Contenedor principal del resumen
 const SummaryContainer = styled.div`
-  flex: 1;
-  padding: 1rem;
+  position: ${(props) => (props.isMobile ? "fixed" : "relative")};
+  bottom: ${(props) => (props.isMobile ? "0" : "auto")};
+  left: ${(props) => (props.isMobile ? "0" : "auto")};
+  width: ${(props) => (props.isMobile ? "92%" : "auto")};
+  z-index: ${(props) => (props.isMobile ? "1001" : "auto")};
   background-color: #fff;
-  border-radius: 12px;
-  border: 1px solid #ddd;
-  margin-top: 9rem;
-  margin-right: 1rem;
-  max-height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: ${(props) =>
+    props.isMobile ? "0px -2px 8px rgba(0, 0, 0, 0.1)" : "none"};
+  transform: translateY(${(props) => (props.visible ? "0%" : "100%")});
+  transition: transform 0.3s ease-in-out;
+  padding: 1rem;
+  border-radius: ${(props) => (props.isMobile ? "0" : "12px")};
+  /* Otros estilos... */
 
-  @media (max-width: 768px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 94%;
-    margin: 0;
-    padding: 1.5rem;
-    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
-    border: none;
-    border-radius: 0;
-    background-color: #fff;
-    z-index: 1001;
-  }
-
-  @media (max-width: 391px) {
-    width: 88%;
+  @media (min-width: 768px) {
+    position: relative;
+    transform: none;
+    bottom: auto;
+    width: auto;
   }
 `;
+
 
 // Título del resumen
 const Title = styled.h2`
@@ -103,8 +94,13 @@ const SecureButton = styled.button`
   cursor: pointer;
   font-size: 1rem;
   font-weight: bold;
+  align-content: center;
   text-align: center;
   margin-top: 1rem;
+
+  img{
+    top: 5px;
+  }
 
   &:hover {
     background-color: rgb(178, 209, 0);
@@ -116,14 +112,14 @@ const SecureButton = styled.button`
   }
 `;
 
-const CartSummary = ({ products }) => {
+const CartSummary = ({ products, isMobile, visible }) => {
   const navigate = useNavigate();
 
   const cleanPrice = (price) => {
     if (typeof price === "string") {
-      return parseFloat(price.replace(/[^0-9.-]+/g, "")); // Elimina caracteres no numéricos
+      return parseFloat(price.replace(/[^0-9.-]+/g, ""));
     }
-    return price; // Devuelve el número si ya está limpio
+    return price;
   };
 
   const subtotal = products.reduce(
@@ -135,7 +131,7 @@ const CartSummary = ({ products }) => {
   const rating = 4.9; // Calificación fija para este ejemplo
 
   return (
-    <SummaryContainer>
+    <SummaryContainer isMobile={isMobile} visible={visible}>
       <Title>Resumen de compra</Title>
       <SummaryItem>
         <span>Producto</span>
@@ -157,24 +153,23 @@ const CartSummary = ({ products }) => {
         <span>${total.toFixed(2)} MXN</span>
       </SummaryItem>
       <SecureButton onClick={() => navigate("/pay")}>
-        Continuar compra
+        <img src={encryptedIMG} alt="Secure" /> Continuar compra
       </SecureButton>
     </SummaryContainer>
   );
 };
 
-// Validación de props
 CartSummary.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
       finalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         .isRequired,
       quantity: PropTypes.number.isRequired,
     })
   ).isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  visible: PropTypes.bool.isRequired,
 };
 
 export default CartSummary;

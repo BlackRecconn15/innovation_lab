@@ -244,7 +244,7 @@ const Header = () => {
         </Icons>
       </TopRow>
         <div>
-          <CPButton onClick={() => navigate("/location")}><img src={markIMG} width={6} style={{marginRight: '5px', marginTop: '2px'}}/>Enviar a CP 42010</CPButton>
+          <CPButton onClick={() => navigate("/catalog")}><img src={markIMG} width={6} style={{marginRight: '5px', marginTop: '2px'}}/>Enviar a CP 42010</CPButton>
         </div>
 
       <BottomRow>

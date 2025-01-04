@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Header from "../components/Header";
@@ -55,25 +55,55 @@ const Container2 = styled.div`
     // Más productos...
   ];
 
-const CartPage = () => {
-  const { cart, removeFromCart, updateQuantity } = useContext(CartContext);
-  // Ejemplo de datos iniciales
-
-  return (
-    <Container>
-      <Header />
-      <Container2>
-        <CartProductList
-          products={cart}
-          onQuantityChange={updateQuantity}
-          onRemoveProduct={removeFromCart}
-        />
-        <CartSummary products={cart} />
-      </Container2>
-      <FrequentlyBoughtTogether products={products} />
-      <Footer />
-    </Container>
-  );
-};
+  const CartPage = () => {
+    const { cart, removeFromCart, updateQuantity } = useContext(CartContext);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [summaryVisible, setSummaryVisible] = useState(true);
+  
+    // Detectar si es móvil
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+  
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  
+    // Manejar la visibilidad del resumen con el scroll
+    useEffect(() => {
+      if (isMobile) {
+        const handleScroll = () => {
+          const scrollPosition = window.scrollY;
+          const documentHeight = document.documentElement.scrollHeight;
+          const windowHeight = window.innerHeight;
+  
+          // Mostrar el resumen cuando el usuario está cerca del final
+          const bottomReached = scrollPosition + windowHeight >= documentHeight - 10;
+          setSummaryVisible(bottomReached);
+        };
+  
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+      }
+    }, [isMobile]);
+  
+    return (
+      <Container>
+        <Header />
+        <Container2>
+          <CartProductList
+            products={cart}
+            onQuantityChange={updateQuantity}
+            onRemoveProduct={removeFromCart}
+          />
+          <CartSummary products={cart} isMobile={isMobile} visible={summaryVisible} />
+        </Container2>
+        <FrequentlyBoughtTogether products={products} />
+        <Footer />
+      </Container>
+    );
+  };
+  
 
 export default CartPage;
