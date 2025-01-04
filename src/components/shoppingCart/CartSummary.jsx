@@ -34,7 +34,7 @@ const SummaryContainer = styled.div`
   }
 
   @media (max-width: 391px) {
-    width: 88%;
+    width: 86%;
   }
 `;
 
