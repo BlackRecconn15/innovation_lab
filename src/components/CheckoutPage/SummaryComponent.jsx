@@ -23,7 +23,7 @@ const Container = styled.div`
   }
 
   @media (max-width: 391px) {
-    width: 91%;
+    width: 89%;
     z-index: 1005;
   }
 `;
