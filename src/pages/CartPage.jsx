@@ -16,6 +16,7 @@ const Container = styled.div`
   justify-content: space-between;
   font-family: 'Inter', 'Poppins', sans-serif;
   background-color: #f7f7f7;
+
 `;
 
 const Container2 = styled.div`
@@ -24,6 +25,10 @@ const Container2 = styled.div`
   font-family: 'Inter', 'Poppins', sans-serif;
   justify-content: space-between;
   background-color: #f7f7f7;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 // Datos de productos
@@ -41,16 +46,6 @@ const Container2 = styled.div`
       id: 2,
       image: Images.productos.ventilador,
       name: "Aspas para ventilador Mazda B20000, B22000",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542"
-    },
-    {
-      id: 3,
-      image: Images.productos.escape,
-      name: "Escape resonador mofle",
       price: "$1,842",
       sku: "DCAT001960",
       rating: "4.9",

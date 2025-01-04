@@ -26,24 +26,24 @@ const Header = styled.header`
   padding: 1rem 2rem;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const LogoImage = styled.img`
-    top: 56px;
-    left: 32px;
-    width: 89px;
-    height: 30px; /* Ajusta el tamaño del logo */
+  width: 89px;
+  height: 30px;
 `;
 
 const MenuButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  top: 56px;
-  right: 20px;
 
   img {
-    width: 30px; /* Ajusta el tamaño del ícono */
+    width: 30px;
     height: 20px;
   }
 `;
@@ -52,22 +52,30 @@ const MenuButton = styled.button`
 const MainContent = styled.div`
   display: flex;
   flex: 1;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 // Sección izquierda
 const LeftSection = styled.div`
-  width: 651px;
-  height: 814px;
-  border-radius: 16px; /* Bordes redondeados */
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const LeftImageElement = styled.img`
   width: 90%;
   height: auto;
-  border-radius: 12px; /* Bordes redondeados de la imagen */
+  border-radius: 12px;
 `;
 
 // Sección derecha (formulario)
@@ -78,13 +86,21 @@ const RightSection = styled.div`
   justify-content: center;
   align-items: center;
   padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    width: 100%;
+  }
 `;
 
 const FormContainer = styled.div`
   width: 100%;
-  max-width: 482px;
-  max-height: 592px;
+  max-width: 400px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    max-width: 90%;
+  }
 `;
 
 const Title = styled.h2`
@@ -99,10 +115,14 @@ const Input = styled.input`
   margin-bottom: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const Button = styled.button`
-  width: 105%;
+  width: 100%;
   padding: 0.75rem;
   margin-top: 1rem;
   background-color: #d4ff00;
@@ -122,8 +142,7 @@ const SocialButtons = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 1rem;
-    width: 107%;
-
+  width: 100%;
 
   button {
     flex: 1;
@@ -132,7 +151,6 @@ const SocialButtons = styled.div`
     border: none;
     border-radius: 4px;
     font-size: 14px;
-    width: 200px;
     cursor: pointer;
   }
 
@@ -152,13 +170,18 @@ const SocialButtons = styled.div`
   }
 `;
 
-// Switch estilizado
+const ErrorMessage = styled.div`
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: left;
+`;
+
 const SwitchContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
   margin: 1rem 0;
-  
 `;
 
 const SwitchLabel = styled.span`
@@ -168,17 +191,6 @@ const SwitchLabel = styled.span`
 
 const SwitchInput = styled.input`
   display: none;
-`;
-
-const RegisterBtn = styled.button`
-    background: #000;
-    color: #fff;
-    border: none;
-    width: 115px;
-    height: 27px;
-    border-radius: 5px;
-    margin-left: 5px;
-    cursor: pointer;
 `;
 
 const Switch = styled.label`
@@ -210,12 +222,17 @@ const Switch = styled.label`
   }
 `;
 
-const ErrorMessage = styled.div`
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-  text-align: left;
+const RegisterBtn = styled.button`
+    background: #000;
+    color: #fff;
+    border: none;
+    width: 115px;
+    height: 27px;
+    border-radius: 5px;
+    margin-left: 5px;
+    cursor: pointer;
 `;
+
 
 
 const LoginPage = () => {

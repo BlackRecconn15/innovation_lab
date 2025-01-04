@@ -7,6 +7,20 @@ const CategoriesGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 1rem;
   padding: 1rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    overflow-x: auto; /* Habilita desplazamiento horizontal */
+    scroll-behavior: smooth; /* Suaviza el desplazamiento */
+
+    /* Oculta scrollbars en navegadores modernos */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    }
 `;
 
 // Tarjetas de categorías
@@ -47,6 +61,15 @@ const CategoryCard = styled.div`
 
     &:hover {
       text-decoration: underline;
+    }
+
+  }
+  @media (max-width: 768px) {
+    img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 0.5rem;
     }
   }
 `;

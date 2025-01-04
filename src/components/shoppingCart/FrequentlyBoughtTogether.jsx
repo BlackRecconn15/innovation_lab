@@ -10,13 +10,24 @@ const Container = styled.div`
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
 `;
+
 
 const ProductList = styled.div`
   display: flex;
@@ -25,9 +36,32 @@ const ProductList = styled.div`
   background-color: #fff;
   padding: 1rem;
   border-radius: 12px;
+  overflow-x: auto;
+
+  .cardContainer {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    align-items:center;
+    justify-content: space-between;
+
+    @media (max-width: 768px) {
+      scroll-snap-type: x mandatory;
+      overflow-x: auto;
+      gap: 1rem;
+      &::-webkit-scrollbar {
+        height: 6px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 4px;
+      }
+    }
+  }
 `;
 
 const ProductCard = styled.div`
+  flex: 0 0 auto;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -37,13 +71,17 @@ const ProductCard = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 1rem;
   text-align: left;
-  width: 15%;
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  width: 200px;
+  scroll-snap-align: center;
 
   &:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
     border-color: #0053a3;
+  }
+
+  @media (max-width: 768px) {
+    width: 85%;
   }
 `;
 
@@ -145,21 +183,36 @@ const PlusSign = styled.div`
   font-size: 2rem;
   font-weight: bold;
   color: #333;
-  align-self: center;
+
+  @media (max-width: 768px) {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+  }
 `;
 
 const TotalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   margin-top: 1.5rem;
-  gap: 0.5rem;
+  gap:1rem;
+
+  @media (max-width: 768px) {
+
+    align-items: flex-start;
+    text-align: left;
+    gap: 1rem;
+  }
 `;
 
 const TotalPrice = styled.div`
   font-size: 1.5rem;
   font-weight: bold;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const AddToCartButton = styled.button`
@@ -205,6 +258,7 @@ const FrequentlyBoughtTogether = ({ products }) => {
     <Container>
       <Title>Comprados juntos habitualmente</Title>
       <ProductList>
+        <div className="cardContainer">
         {products.map((product, index) => (
           <React.Fragment key={product.id}>
             <ProductCard>
@@ -236,6 +290,7 @@ const FrequentlyBoughtTogether = ({ products }) => {
             {index < products.length - 1 && <PlusSign>+</PlusSign>}
           </React.Fragment>
         ))}
+        </div>
 
         <TotalContainer>
           <TotalPrice>Precio total:</TotalPrice>

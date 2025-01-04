@@ -18,7 +18,7 @@ const BrandsGridContainer = styled.div`
 
     a {
       font-size: 14px;
-      color: #0053a3;
+      color: #222;
       text-decoration: none;
       font-weight: bold;
 
@@ -27,18 +27,42 @@ const BrandsGridContainer = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        h3 {
+          font-size: 18px;
+        }
+
+        a {
+          display: none;
+          font-size: 12px;
+        }
+      }
+    }
 `;
 
-// Grilla de marcas
+// Grilla de marcas (se convierte en carrusel en móvil)
 const BrandsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* 5 columnas para las tarjetas pequeñas */
+  grid-template-columns: repeat(5, 1fr); /* Grilla original de escritorio */
   grid-template-rows: auto auto; /* Dos filas: una para las pequeñas y otra para la grande */
   gap: 1rem;
 
   @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr); /* Ajuste para pantallas pequeñas */
-    grid-template-rows: auto; /* Solo una fila para pantallas pequeñas */
+    display: flex; /* Cambia a carrusel horizontal en móviles */
+    overflow-x: auto; /* Habilita desplazamiento horizontal */
+    scroll-behavior: smooth; /* Suaviza el desplazamiento */
+    gap: 1rem;
+
+    /* Oculta scrollbars */
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
@@ -63,11 +87,15 @@ const SmallBrandCard = styled.div`
     height: 100%;
     object-fit: contain;
   }
+
+  @media (max-width: 768px) {
+    flex: 0 0 120px; /* Tamaño fijo en móvil */
+  }
 `;
 
 // Tarjeta de marca grande
 const LargeBrandCard = styled.div`
-  grid-column: 1 / -1; /* Abarca todas las columnas */
+  grid-column: 1 / -1; /* Abarca todas las columnas en escritorio */
   grid-row: 2; /* Se posiciona en la segunda fila */
   display: flex;
   align-items: center;
@@ -87,6 +115,10 @@ const LargeBrandCard = styled.div`
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  @media (max-width: 768px) {
+    flex: 0 0 300px; /* Tamaño fijo en carrusel para móviles */
   }
 `;
 

@@ -24,6 +24,10 @@ const BackButton = styled.button`
   &:hover {
     color: #000;
   }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Title = styled.h1`
@@ -31,6 +35,10 @@ const Title = styled.h1`
   text-align: center;
   font-size: 1.9rem;
   color: #333;
+
+  @media (max-width: 768px) {
+    margin-top: 3rem;
+  }
 `;
 
 const CheckoutHeader = () => {

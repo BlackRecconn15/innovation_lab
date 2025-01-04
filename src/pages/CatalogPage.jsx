@@ -7,6 +7,8 @@ import HeaderSection from "../components/TextHeder";
 import Images from "../config/images";
 import { useContext, useState } from "react";
 import { CartContext } from "../context/CartContext";
+import { ToastContainer, toast } from "react-toastify"; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 
   // Datos de productos
@@ -127,6 +129,11 @@ const Container = styled.div`
 const Container2 = styled.div`
     display: flex;
     flex-direction: row;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+
 `;
 
 
@@ -137,7 +144,8 @@ const CatalogPage = () => {
 
     // Cuando un producto es agregado
     const handleAddToCart = (product) => {
-      addToCart(product);
+      addToCart(product); // Agrega el producto al carrito
+      toast.success(`${product.name} ha sido añadido al carrito.`); // Mensaje de confirmación
     };
     const [arrivesTomorrow, setArrivesTomorrow] = useState(false);
     const [freeShipping, setFreeShipping] = useState(false);
@@ -194,6 +202,9 @@ const CatalogPage = () => {
         />
 
         </Container2>
+
+        {/* Toastify container para mostrar las notificaciones */}
+        <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
 
         {/* Footer */}
         <Footer />

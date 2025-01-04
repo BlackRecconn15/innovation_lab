@@ -98,10 +98,70 @@ const FooterContainer = styled.footer`
       width: 50%;
     }
   }
+
+  @media (max-width: 768px) {
+      display: none;
+    }
+`;
+
+// Menú de acciones para móviles
+const ActionMenu = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #fff;
+    border-top: 1px solid #eaeaea;
+    padding: 0.5rem 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      font-size: 12px;
+      cursor: pointer;
+      transition: color 0.2s;
+
+      &.active {
+        color: #000;
+
+        .indicator {
+          width: 30px;
+          height: 3px;
+          background-color: #000;
+          border-radius: 3px;
+          margin-top: 0.3rem;
+        }
+      }
+
+      img {
+        width: 24px;
+        height: 24px;
+        margin-bottom: 0.3rem;
+      }
+
+      .indicator {
+        width: 30px;
+        height: 3px;
+        background-color: transparent;
+        border-radius: 3px;
+      }
+    }
+  }
 `;
 
 const Footer = () => {
   return (
+    <div>
     <FooterContainer>
       {/* Parte superior del footer */}
       <div className="footer-top">
@@ -191,6 +251,33 @@ const Footer = () => {
         <p>Copyright 2023, All Rights Reserved</p>
       </div>
     </FooterContainer>
+
+    
+      {/* Menú de acciones para móviles */}
+      <ActionMenu>
+      <div className="menu-item active">
+        <img src={Images.menu.home} alt="Inicio" />
+        <span>Inicio</span>
+        <div className="indicator"></div>
+      </div>
+      <div className="menu-item">
+        <img src={Images.menu.stores} alt="Tiendas" />
+        <span>Tiendas</span>
+        <div className="indicator"></div>
+      </div>
+      <div className="menu-item">
+        <img src={Images.menu.favorites} alt="Favoritos" />
+        <span>Favoritos</span>
+        <div className="indicator"></div>
+      </div>
+      <div className="menu-item">
+        <img src={Images.menu.profile} alt="Perfil" />
+        <span>Perfil</span>
+        <div className="indicator"></div>
+      </div>
+    </ActionMenu>
+    </div>
+
   );
 };
 

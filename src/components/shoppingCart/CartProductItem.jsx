@@ -1,65 +1,301 @@
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const ProductContainer = styled.div`
   display: flex;
   align-items: center;
   background-color: #fff;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
   padding: 1rem;
   margin-bottom: 10px;
   border-radius: 12px;
+
+  .actions {
+    display: none;
+  }
+
+  .container3 {
+    display: flex;
+    flex-direction:row;
+    gap:6rem;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+    gap: 1rem;
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.9rem;
+      color: #909090;
+      cursor: pointer;
+
+      .remove {
+        color: #dc3545;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      .favorite {
+        font-size: 1.2rem;
+        color: #f44336;
+
+        &:hover {
+          color: #ff6666;
+        }
+      }
+    }
+    .container3 {
+      display: none;
+      flex-direction: row-reverse;
+    }
+  }
 `;
 
 const ProductDetails = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
   align-items: center;
-  min-width: 600px;
+  gap: 1rem;
+
+  .sku {
+    display: none;
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  .container2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .sku {
+      display: flex;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .container2 {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
 `;
 
 const ProductImage = styled.img`
   width: 100px;
   height: 100px;
   object-fit: contain;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 5px;
 `;
 
 const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
 
-`;
+  .containerMovil {
+    display: none;
 
-const ProductName = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
-`;
+    .priceContainer{
+      display: none;
+    }
 
-const ProductActions = styled.div`
-  display: flex;
-  gap: 1rem;
-  font-size: 1.1rem;
-  color: #909090;
-  cursor: pointer;
-  align-items: center;
+    .stockContainer{
+      display: none;
+    }
+  }
+
+  .name {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .Controls {
+    display: none;
+  }
+
+  .stock {
+    display: none;
+  }
+
+  .price {
+    display: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+
+  .shipping {
+    display: none;
+    font-size: 0.8rem;
+    color: #28a745;
+  }
+
+  .actions {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.9rem;
+    color: #909090;
+    cursor: pointer;
+
+    .remove {
+      color: #dc3545;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .favorite {
+      font-size: 1.2rem;
+      color: #f44336;
+
+      &:hover {
+        color: #ff6666;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: fit-content;
+
+    .containerMovil {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top:1rem;
+
+      .priceContainer{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stockContainer{
+      display: flex;
+      flex-direction:column;
+      align-items:center;
+    }
+    }
+
+    .actions {
+      display: none;
+    }
+
+    .Controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      button {
+        width: 15px;
+        height: 15px;
+        font-size: 0.7rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #e9e9e9;
+        }
+
+        &:disabled {
+          background-color: #ccc;
+          cursor: not-allowed;
+        }
+      }
+
+      span {
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #333;
+      }
+    }
+
+    .stock {
+      display: flex;
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .price {
+      display: flex;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .shipping {
+      display: flex;
+      font-size: 0.5rem;
+      color: #28a745;
+    }
+  }
 `;
 
 const QuantityControl = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
 
-  button {
-    padding: 0.25rem 0.5rem;
-    font-size: 25px;
-    border: 1px solid black;
-    width: 32px;
-    color: #000;
-    border-radius: 4px;
-    cursor: pointer;
+  .Controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    button {
+      width: 30px;
+      height: 30px;
+      font-size: 1.2rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #e9e9e9;
+      }
+
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      font-size: 1rem;
+      font-weight: bold;
+      color: #333;
+    }
+  }
+
+  .stock {
+    font-size: 0.8rem;
+    color: #666;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
   }
 `;
 
@@ -69,26 +305,18 @@ const PriceContainer = styled.div`
   align-items: flex-end;
 
   .price {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #333;
   }
 
   .shipping {
     font-size: 0.8rem;
-    color: #666;
+    color: #28a745;
   }
-`;
 
-const FavoriteButton = styled.button`
-  background: none;
-  border: none;
-  color: red;
-  font-size: 1.5rem;
-  cursor: pointer;
-
-  &:hover {
-    color: #ff6666;
+  @media (max-width: 768px) {
+    align-items: flex-start;
   }
 `;
 
@@ -99,78 +327,116 @@ const CartProductItem = ({ product, onQuantityChange, onRemoveProduct }) => {
     }
   };
 
-  const cleanPrice = (price) => {
-    if (typeof price === "string") {
-      return parseFloat(price.replace(/[^0-9.-]+/g, "")); // Elimina caracteres no numéricos
-    }
-    return price; // Devuelve el número si ya está limpio
-  };
-  
-
   const handleDecrease = () => {
     if (product.quantity > 1) {
       onQuantityChange(product.id, product.quantity - 1);
     }
   };
 
-  const price = cleanPrice(product.finalPrice);
+  // Corregir el cálculo del precio
+  const price = parseFloat(product.finalPrice.replace(/[^0-9.]/g, "")) || 0;
 
   return (
     <ProductContainer>
-      {/* Detalles del producto */}
       <ProductDetails>
-        <ProductImage src={product.image} alt={product.name} />
-        <ProductInfo>
-          <ProductName>{product.name}</ProductName>
-          <div style={{fontSize: '0.7rem'}}>SKU: {product.sku || "N/A"}</div> {/* Añade el SKU */}
-          <ProductActions>
-          <span onClick={() => onRemoveProduct(product.id)}>Eliminar</span>
-            <FavoriteButton>♡</FavoriteButton>
-          </ProductActions>
-          
-        </ProductInfo>
-      </ProductDetails>
-
-      {/* Controles de cantidad */}
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <QuantityControl> 
-        <button onClick={handleDecrease} disabled={product.quantity === 1}>
-          -
-        </button>
-        <span>{product.quantity}</span>
-        <button onClick={handleIncrease} disabled={product.quantity === product.stock}>
-          +
-        </button>
-      </QuantityControl>
-      <div style={{ fontSize: '0.9rem', color: '#666', marginTop: '1rem' }}>
-            {product.quantity} disponibles
-          </div>
-      </div>
-
-      {/* Precio y envío */}
-      <PriceContainer>
-      <div className="price">${(price * product.quantity).toFixed(2)} MXN</div>
-        <div className="shipping">
-          {product.quantity > 2 ? 'Sin cargo por envío' : 'Cargo por envío $234'}
+        <div className="sku">SKU: {product.sku}</div>
+        <div className="container2">
+          <ProductImage src={product.image} alt={product.name} />
+          <ProductInfo>
+            <div className="name">{product.name}</div>
+            <div className="actions">
+              <span
+                className="remove"
+                onClick={() => onRemoveProduct(product.id)}
+              >
+                Eliminar
+              </span>
+              <span className="favorite">♡</span>
+            </div>
+            <div className="containerMovil">
+              <div className="priceContainer">
+                <div className="price">
+                  ${(price * product.quantity).toFixed(2)} MXN
+                </div>
+                <div className="shipping">
+                  {product.quantity > 2
+                    ? "Sin cargo por envío"
+                    : "Cargo por envío $234"}
+                </div>
+              </div>
+              <div className="stockContainer">
+                <div className="Controls">
+                  <button
+                    onClick={handleDecrease}
+                    disabled={product.quantity === 1}
+                  >
+                    -
+                  </button>
+                  <span>{product.quantity}</span>
+                  <button
+                    onClick={handleIncrease}
+                    disabled={product.quantity === product.stock}
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="stock">{product.stock} disponibles</div>
+              </div>
+            </div>
+          </ProductInfo>
         </div>
-      </PriceContainer>
+      </ProductDetails>
+      <div className="container3">
+        <QuantityControl>
+          <div className="Controls">
+            <button onClick={handleDecrease} disabled={product.quantity === 1}>
+              -
+            </button>
+            <span>{product.quantity}</span>
+            <button
+              onClick={handleIncrease}
+              disabled={product.quantity === product.stock}
+            >
+              +
+            </button>
+          </div>
+          <div className="stock">{product.stock} disponibles</div>
+        </QuantityControl>
+
+        <PriceContainer>
+          <div className="price">
+            ${(price * product.quantity).toFixed(2)} MXN
+          </div>
+          <div className="shipping">
+            {product.quantity > 2
+              ? "Sin cargo por envío"
+              : "Cargo por envío $234"}
+          </div>
+        </PriceContainer>
+      </div>
+      <div className="actions">
+        <span className="remove" onClick={() => onRemoveProduct(product.id)}>
+          Eliminar
+        </span>
+        <span className="favorite">♡</span>
+      </div>
     </ProductContainer>
   );
 };
 
 // Validación de props
 CartProductItem.propTypes = {
-    product: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      sku: PropTypes.string.isRequired,
-      originalPrice: PropTypes.string.isRequired,
-      finalPrice: PropTypes.string.isRequired,
-      quantity: PropTypes.number.isRequired,
-      stock: PropTypes.number.isRequired,
-    }).isRequired,
-    onQuantityChange: PropTypes.func.isRequired,
-    onRemoveProduct: PropTypes.func.isRequired,
-  };
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    sku: PropTypes.string.isRequired,
+    finalPrice: PropTypes.string.isRequired,
+    quantity: PropTypes.number.isRequired,
+    stock: PropTypes.number.isRequired,
+  }).isRequired,
+  onQuantityChange: PropTypes.func.isRequired,
+  onRemoveProduct: PropTypes.func.isRequired,
+};
+
 export default CartProductItem;

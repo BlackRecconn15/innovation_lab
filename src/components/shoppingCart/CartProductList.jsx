@@ -9,7 +9,11 @@ const ListContainer = styled.div`
   flex: 3;
   padding: 1rem;
   border-radius: 8px;
-  margin: 3rem 1rem
+  margin: 3rem 1rem;
+
+  @media (max-width: 768px) {
+    margin: 3rem 0;
+  }
 `;
 
 const Header = styled.div`
@@ -30,6 +34,10 @@ const BackToShoppingButton = styled.button`
     display: flex;
     gap: 16px;
     align-items: self-end;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
   }
 
 `;

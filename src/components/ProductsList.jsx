@@ -118,6 +118,8 @@ const PriceContainer = styled.div`
     font-weight: bold;
     color: #333;
   }
+
+  
 `;
 
 

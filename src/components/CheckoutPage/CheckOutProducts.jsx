@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const ProductContainer = styled.div`
   display: flex;
@@ -10,6 +10,23 @@ const ProductContainer = styled.div`
   padding: 1rem;
   margin-bottom: 10px;
   border-radius: 12px;
+
+  .actionsContent{
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .actionsContent{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 0.5rem 0 0.5rem 0;
+    }
+  }
 `;
 
 const ProductDetails = styled.div`
@@ -18,24 +35,69 @@ const ProductDetails = styled.div`
   gap: 1rem;
   align-items: center;
   min-width: 600px;
+
+  @media (max-width: 768px) {
+    min-width: 200px;
+  }
 `;
 
 const ProductImage = styled.img`
   width: 100px;
   height: 100px;
   object-fit: contain;
+
+  @media (max-width: 768px) {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
 
+  .priceContent {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .price {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .shipping {
+      font-size: 0.8rem;
+      color: #666;
+    }
+  }
+  @media (max-width: 768px) {
+    .priceContent {
+      display: flex;
+      margin-top: 0.5rem;
+      align-content: flex-start;
+      align-items: flex-start;
+
+      .price {
+        font-size: 1rem;
+      }
+
+      .shipping {
+        color: #28a745;
+      }
+    }
+  }
 `;
 
 const ProductName = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const ProductActions = styled.div`
@@ -45,6 +107,10 @@ const ProductActions = styled.div`
   color: #909090;
   cursor: pointer;
   align-items: center;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const PriceContainer = styled.div`
@@ -62,6 +128,10 @@ const PriceContainer = styled.div`
     font-size: 0.8rem;
     color: #666;
   }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const FavoriteButton = styled.button`
@@ -77,14 +147,12 @@ const FavoriteButton = styled.button`
 `;
 
 const CheckOutProductItem = ({ product, onRemoveProduct }) => {
-
   const cleanPrice = (price) => {
     if (typeof price === "string") {
       return parseFloat(price.replace(/[^0-9.-]+/g, "")); // Elimina caracteres no numéricos
     }
     return price; // Devuelve el número si ya está limpio
   };
-  
 
   return (
     <ProductContainer>
@@ -93,19 +161,37 @@ const CheckOutProductItem = ({ product, onRemoveProduct }) => {
         <ProductImage src={product.image} alt={product.name} />
         <ProductInfo>
           <ProductName>{product.name}</ProductName>
+          <div className="priceContent">
+            <div className="price">
+              ${(cleanPrice(product.finalPrice) * product.quantity).toFixed(2)}{" "}
+              MXN
+            </div>
+            <div className="shipping">
+              {product.quantity > 2
+                ? "Sin cargo por envío"
+                : "Cargo por envío $234"}
+            </div>
+          </div>
           <ProductActions>
             <span onClick={() => onRemoveProduct(product.id)}>Eliminar</span>
             <FavoriteButton>♡</FavoriteButton>
           </ProductActions>
-          
         </ProductInfo>
       </ProductDetails>
+      <div className="actionsContent">
+        <span onClick={() => onRemoveProduct(product.id)}>Eliminar</span>
+        <FavoriteButton>♡</FavoriteButton>
+      </div>
 
       {/* Precio y envío */}
       <PriceContainer>
-        <div className="price">${(cleanPrice(product.finalPrice) * product.quantity).toFixed(2)} MXN</div>
+        <div className="price">
+          ${(cleanPrice(product.finalPrice) * product.quantity).toFixed(2)} MXN
+        </div>
         <div className="shipping">
-          {product.quantity > 2 ? 'Sin cargo por envío' : 'Cargo por envío $234'}
+          {product.quantity > 2
+            ? "Sin cargo por envío"
+            : "Cargo por envío $234"}
         </div>
       </PriceContainer>
     </ProductContainer>
@@ -114,18 +200,18 @@ const CheckOutProductItem = ({ product, onRemoveProduct }) => {
 
 // Validación de props
 CheckOutProductItem.propTypes = {
-    product: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
-      finalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired,
-      quantity: PropTypes.number.isRequired,
-      stock: PropTypes.number.isRequired,
-    }).isRequired,
-    onQuantityChange: PropTypes.func.isRequired,
-    onRemoveProduct: PropTypes.func.isRequired,
-  };
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    finalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    quantity: PropTypes.number.isRequired,
+    stock: PropTypes.number.isRequired,
+  }).isRequired,
+  onQuantityChange: PropTypes.func.isRequired,
+  onRemoveProduct: PropTypes.func.isRequired,
+};
 export default CheckOutProductItem;

@@ -25,6 +25,10 @@ import linked from "../assets/home/social/linkedIn.png"
 import tiktok from "../assets/home/social/tiktok.png"
 import twitter from "../assets/home/social/twitter.png"
 import producto1 from "../assets/home/productos/producto1.png";
+import homeIMG from "../assets/home/icons/home-2.png"
+import catalogIMG from "../assets/home/icons/catalog.png"
+import favIMG from "../assets/home/icons/heart.png"
+import profileIMG from "../assets/home/icons/profile.png"
 
 
 const Images = {
@@ -34,6 +38,12 @@ const Images = {
     michellin: michellin,
     llanta: llanta,
     llanta1: llanta1
+  },
+  menu: {
+    home: homeIMG,
+    stores: catalogIMG,
+    favorites: favIMG,
+    profile: profileIMG
   },
   categorias: {
     llanta: llantaIMG,

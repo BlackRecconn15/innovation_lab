@@ -13,6 +13,8 @@ const ContainerMain = styled.div`
   display: flex;
   flex-direction: column;
   font-family: "Inter", "Poppins", sans-serif;
+
+  
 `;
 
 const ContentContainer = styled.div`
@@ -22,18 +24,28 @@ const ContentContainer = styled.div`
   background-color: #f7f7f7;
   min-height: 100vh;
   font-family: "Inter", "Poppins", sans-serif;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 2rem 1rem;
+  }
+  
 `;
 
 const LeftPanel = styled.div`
   flex: 3;
   margin-right: 2rem;
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+  }
 `;
 
 const RightPanel = styled.div`
   flex: 1;
-  position: sticky;
   top: 2rem;
   align-self: flex-start;
+  z-index:1005;
 `;
 
 const CheckoutPage = () => {

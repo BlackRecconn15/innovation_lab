@@ -122,6 +122,10 @@ const SubmitButton = styled(Button)`
   &:hover {
     background-color: #333;
   }
+
+  @media (max-width: 768px) {
+    width: 30%;
+  }
 `;
 
 const RegisterPage = () => {

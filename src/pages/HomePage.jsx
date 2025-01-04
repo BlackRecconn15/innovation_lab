@@ -124,6 +124,39 @@ const MainBanner = styled.div`
     height: auto;
     z-index: 4
   }
+
+  @media (max-width: 768px) {
+
+      .tire-images{
+        display: none;
+      }
+
+      .main-tire {
+        display: flex;
+        position: absolute;
+        left: 2rem; /* Ajusta según la ubicación deseada */
+        top: 40%;
+        transform: translateY(-50%);
+        width: 150px; /* Tamaño de la llanta principal */
+        height: auto;
+      }
+
+      .mascot {
+        position: absolute;
+        right: -1rem;
+        bottom: 0;
+        width: 120px; /* Ajusta el tamaño de la mascota */
+        height: auto;
+      }
+        .llanta2 {
+        position: absolute;
+        right: 4rem;
+        top: 0rem;
+        width: 140px; /* Ajusta el tamaño de la mascota */
+        height: auto;
+        z-index: 4
+      }
+    }
 `;
 
 const SecondaryBanner = styled.div`

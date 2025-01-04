@@ -9,12 +9,34 @@ const Container = styled.div`
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 96%;
+    border-radius: 0;
+    padding: 1rem;
+    z-index: 1004;
+    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 391px) {
+    width: 91%;
+    z-index: 1005;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 1.3rem;
   margin-bottom: 1rem;
   color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
 `;
 
 const SummaryItem = styled.div`
@@ -29,6 +51,14 @@ const SummaryItem = styled.div`
     font-size: 1.2rem;
     color: #333;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+
+    &.total {
+      font-size: 1.1rem;
+    }
+  }
 `;
 
 const InputField = styled.input`
@@ -38,8 +68,12 @@ const InputField = styled.input`
   border-radius: 8px;
   font-size: 1rem;
   margin-top: 0.5rem;
-`;
 
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+`;
 
 const SecureButton = styled.button`
   width: 100%;
@@ -64,21 +98,25 @@ const SecureButton = styled.button`
   &:hover {
     background-color: rgb(178, 209, 0);
   }
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    font-size: 1rem;
+  }
 `;
 
 const SummaryComponent = ({ products, formData }) => {
-
   const { user } = useUser();
 
-  const userId = user?.id; // Rescata el user_id del contexto
+  const userId = user?.id;
 
   const handlePurchase = async () => {
     const shippingAddress = `${formData.street} ${formData.extNumber}${
       formData.intNumber ? `, Int. ${formData.intNumber}` : ""
     }, ${formData.colony}`;
-  
+
     const purchaseData = {
-      user_id: userId, // Cambia esto por el ID del usuario actual si lo tienes
+      user_id: userId,
       total,
       shipping_address: shippingAddress,
       city: formData.city,
@@ -90,34 +128,36 @@ const SummaryComponent = ({ products, formData }) => {
         price: cleanPrice(product.finalPrice),
       })),
     };
-  
-    console.log("Datos de la compra:", purchaseData);
-  
 
     try {
-      const response = await api.post("/purchases", purchaseData);
+      await api.post("/purchases", purchaseData);
       alert("¡Compra registrada con éxito!");
     } catch (error) {
       console.error("Error al registrar la compra:", error);
       if (error.response && error.response.data) {
-        alert(`Error: ${error.response.data.detail || "No se pudo procesar la compra"}`);
+        alert(
+          `Error: ${
+            error.response.data.detail || "No se pudo procesar la compra"
+          }`
+        );
       } else {
         alert("Error al registrar la compra. Inténtalo de nuevo.");
       }
     }
   };
-  
+
   const cleanPrice = (price) => {
     if (typeof price === "string") {
-      return parseFloat(price.replace(/[^0-9.-]+/g, "")); // Elimina caracteres no numéricos
+      return parseFloat(price.replace(/[^0-9.-]+/g, ""));
     }
-    return price; // Devuelve el número si ya está limpio
+    return price;
   };
+
   const subtotal = products.reduce(
     (sum, product) => sum + cleanPrice(product.finalPrice) * product.quantity,
     0
   );
-  
+
   const shipping = subtotal > 1000 ? 0 : 250;
   const total = subtotal + shipping;
 
@@ -146,7 +186,6 @@ const SummaryComponent = ({ products, formData }) => {
   );
 };
 
-
 SummaryComponent.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
@@ -171,8 +210,6 @@ SummaryComponent.propTypes = {
     city: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
   }).isRequired,
-  
 };
-
 
 export default SummaryComponent;

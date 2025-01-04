@@ -5,6 +5,9 @@ import styled from 'styled-components';
 const HeaderSectionContainer = styled.div`
   padding: 1rem 2rem;
   background-color: #f7f7f7;
+  @media (max-width: 768px) {
+    display:none;
+  }
 `;
 
 const Title = styled.h1`
