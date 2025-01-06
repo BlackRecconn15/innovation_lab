@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Header from "../components/Header";
@@ -7,7 +7,7 @@ import CartProductList from "../components/shoppingCart/CartProductList";
 import CartSummary from "../components/shoppingCart/CartSummary";
 // import Images from "../config/images";
 import FrequentlyBoughtTogether from "../components/shoppingCart/FrequentlyBoughtTogether";
-import { CartContext } from "../context/CartContext";
+import { useCart } from "../context/CartContext";
 import Images from "../config/images";
 
 const Container = styled.div`
@@ -32,7 +32,7 @@ const Container2 = styled.div`
 `;
 
 // Datos de productos
-  const products = [
+  const productsTest = [
     {
       id: 1,
       image: Images.productos.radiador,
@@ -56,7 +56,10 @@ const Container2 = styled.div`
   ];
 
   const CartPage = () => {
-    const { cart, removeFromCart, updateQuantity } = useContext(CartContext);
+    const { cart, removeFromCart, updateQuantity } = useCart();
+
+  // Depuración
+  console.log("Contenido del carrito:", cart);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [summaryVisible, setSummaryVisible] = useState(true);
   
@@ -97,9 +100,10 @@ const Container2 = styled.div`
             onQuantityChange={updateQuantity}
             onRemoveProduct={removeFromCart}
           />
+          
           <CartSummary products={cart} isMobile={isMobile} visible={summaryVisible} />
         </Container2>
-        <FrequentlyBoughtTogether products={products} />
+        <FrequentlyBoughtTogether products={productsTest} />
         <Footer />
       </Container>
     );

@@ -3,17 +3,13 @@ import CheckoutForms from "../components/CheckoutPage/CheckoutForms";
 import SummaryComponent from "../components/CheckoutPage/SummaryComponent";
 import Header from "../components/Header";
 import CheckoutHeader from "../components/shoppingCart/HeaderCheckOut";
-// import Images from "../config/images";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../context/CartContext";
-
+import { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext"; // Cambiado a useCart
 
 const ContainerMain = styled.div`
   display: flex;
   flex-direction: column;
   font-family: "Inter", "Poppins", sans-serif;
-
-  
 `;
 
 const ContentContainer = styled.div`
@@ -24,15 +20,13 @@ const ContentContainer = styled.div`
   min-height: 100vh;
   font-family: "Inter", "Poppins", sans-serif;
 
-  /* Asegurar espacio para el SummaryComponent en móviles */
-  padding-bottom: ${(props) => (props.isMobile ? "12rem" : "0")}; 
+  padding-bottom: ${(props) => (props.isMobile ? "12rem" : "0")};
 
   @media (max-width: 768px) {
     flex-direction: column;
     padding: 2rem 1rem;
   }
 `;
-
 
 const LeftPanel = styled.div`
   flex: 3;
@@ -56,7 +50,8 @@ const RightPanel = styled.div`
 `;
 
 const CheckoutPage = () => {
-  const { cart, removeFromCart } = useContext(CartContext);
+  // Cambiar a `useCart`
+  const { cart, removeFromCart, updateQuantity } = useCart();
   const [formData, setFormData] = useState({});
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [summaryVisible, setSummaryVisible] = useState(false); // Empieza oculto
@@ -106,10 +101,12 @@ const CheckoutPage = () => {
       <CheckoutHeader />
       <ContentContainer isMobile={isMobile}>
         <LeftPanel>
+          {/* Asegurarse de pasar las funciones necesarias */}
           <CheckoutForms
             products={cart}
-            onRemoveProduct={removeFromCart}
-            onFormChange={handleFormChange}
+            onRemoveProduct={removeFromCart} // Para eliminar productos
+            onUpdateQuantity={updateQuantity} // Para actualizar cantidades
+            onFormChange={handleFormChange} // Actualizar el formulario
           />
         </LeftPanel>
         <RightPanel isMobile={isMobile}>
@@ -124,6 +121,5 @@ const CheckoutPage = () => {
     </ContainerMain>
   );
 };
-
 
 export default CheckoutPage;

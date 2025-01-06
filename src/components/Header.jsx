@@ -206,14 +206,23 @@ const LoginLink = styled.a`
   }
 `;
 
-const Header = () => {
+const Header = () => {  
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [searchText, setSearchText] = useState("");
+
+  // Trigger search only on "Enter" key press
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      navigate(`/catalog?search=${searchText.trim()}`); // Redirect with search query
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
     setIsAuthenticated(!!token);
   }, []);
+
 
   return (
     <HeaderContainer>
@@ -221,7 +230,13 @@ const Header = () => {
         <Logo onClick={() => navigate("/home")}>LOGO</Logo>
         <SearchBar>
         <IconsMovil onClick={() => navigate("/home")}><img src={MenuIcon} width={18} alt="Notificaciones" /></IconsMovil>
-          <SearchInput placeholder="Buscar productos, marcas y más..." />
+        <SearchInput
+            type="text"
+            placeholder="Buscar productos, marcas y más..."
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyDown} // Listen for Enter key
+          />
           <IconsMovil><img src={bellIMG} width={18} alt="Notificaciones" /></IconsMovil>
           <IconsMovil onClick={() => navigate("/shoppingcart")}><img src={cartIMG} width={18} alt="Carrito" /></IconsMovil>
           {isAuthenticated ? (
@@ -264,6 +279,7 @@ const Header = () => {
 Header.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   userName: PropTypes.string,
+  onSearch: PropTypes.func, // Hacerlo opcional
 };
 
 export default Header;

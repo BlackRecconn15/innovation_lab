@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "https://pythonbackend-s34c.onrender.com", // URL base de tu API
+    //baseURL: "https://pythonbackend-s34c.onrender.com", // URL base de tu API
+    baseURL: "http://127.0.0.1:8000", // URL base de tu API
 });
 
 // Agrega el token en cada solicitud

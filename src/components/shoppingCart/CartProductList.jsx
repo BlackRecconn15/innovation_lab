@@ -12,6 +12,7 @@ const ListContainer = styled.div`
   margin: 3rem 1rem;
 
   @media (max-width: 768px) {
+    display: block;
     margin: 3rem 0;
   }
 `;
@@ -50,7 +51,14 @@ const Title = styled.h2`
 
 const CartProductList = ({ products, onQuantityChange, onRemoveProduct }) => {
   const navigate = useNavigate();
-  return (
+
+  const handleQuantityChange = (id, quantity) => {
+    console.log("Updating quantity for:", id, "to:", quantity);
+    onQuantityChange(id, quantity);
+  };
+  
+
+    return (
     <ListContainer>
       {/* Header con botón de "Seguir comprando" */}
       <Header>
@@ -63,15 +71,21 @@ const CartProductList = ({ products, onQuantityChange, onRemoveProduct }) => {
         </a>
       </BackToShoppingButton>
 
-      {/* Productos en el carrito */}
-      {products.map((product) => (
+      {/* Renderiza productos del carrito */}
+      
+
+      {products.length > 0 ? (
+      products.map((product) => (
         <CartProductItem
           key={product.id}
           product={product}
-          onQuantityChange={onQuantityChange}
+          onQuantityChange={handleQuantityChange}
           onRemoveProduct={onRemoveProduct}
         />
-      ))}
+      ))
+    ) : (
+      <p>No hay productos en el carrito.</p>
+    )}
     </ListContainer>
   );
 };
@@ -80,14 +94,16 @@ CartProductList.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
+      image_url: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       originalPrice: PropTypes.oneOfType([PropTypes.number, PropTypes.string]), // Opcional
-      finalPrice: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+      finalprice: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       quantity: PropTypes.number.isRequired, // Debe ser un número
       rating: PropTypes.string, // Opcional
       sku: PropTypes.string, // Opcional
       stock: PropTypes.number.isRequired,
+      shippingCost: PropTypes.number,
+      description: PropTypes.string
     })
   ).isRequired,
   onQuantityChange: PropTypes.func.isRequired,

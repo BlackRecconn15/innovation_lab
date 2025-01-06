@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Images from "../../config/images";
 
 const ProductContainer = styled.div`
   display: flex;
@@ -147,23 +148,17 @@ const FavoriteButton = styled.button`
 `;
 
 const CheckOutProductItem = ({ product, onRemoveProduct }) => {
-  const cleanPrice = (price) => {
-    if (typeof price === "string") {
-      return parseFloat(price.replace(/[^0-9.-]+/g, "")); // Elimina caracteres no numéricos
-    }
-    return price; // Devuelve el número si ya está limpio
-  };
-
+  
   return (
     <ProductContainer>
       {/* Detalles del producto */}
       <ProductDetails>
-        <ProductImage src={product.image} alt={product.name} />
+        <ProductImage src={Images.productos[product.image_url]} alt={product.name} />
         <ProductInfo>
           <ProductName>{product.name}</ProductName>
           <div className="priceContent">
             <div className="price">
-              ${(cleanPrice(product.finalPrice) * product.quantity).toFixed(2)}{" "}
+              ${(product.finalprice * product.quantity).toFixed(2)}{" "}
               MXN
             </div>
             <div className="shipping">
@@ -186,7 +181,7 @@ const CheckOutProductItem = ({ product, onRemoveProduct }) => {
       {/* Precio y envío */}
       <PriceContainer>
         <div className="price">
-          ${(cleanPrice(product.finalPrice) * product.quantity).toFixed(2)} MXN
+          ${(product.finalprice * product.quantity).toFixed(2)} MXN
         </div>
         <div className="shipping">
           {product.quantity > 2
@@ -202,11 +197,11 @@ const CheckOutProductItem = ({ product, onRemoveProduct }) => {
 CheckOutProductItem.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
+    image_url: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
-    finalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    finalprice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
       .isRequired,
     quantity: PropTypes.number.isRequired,
     stock: PropTypes.number.isRequired,

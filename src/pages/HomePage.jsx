@@ -6,6 +6,10 @@ import CategoryList from "../components/CategoryList";
 import BrandList from "../components/BrandsList";
 import Images from "../config/images";
 import { useEffect, useState } from "react";
+import api from "../services/api";
+import { useCart } from "../context/CartContext"; // Importa el contexto
+import { ToastContainer, toast } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 
 
 // Datos de categorías
@@ -26,54 +30,6 @@ const categories = [
       { name: "Deyac", image: Images.brands.brand6 },
     ];
   
-  // Datos de productos
-  const products = [
-    {
-      image: Images.productos.radiador,
-      name: "Radiador agricola tractor Case 580 k Aluminio/Aluminio TM",
-      sku: "DCAT001980",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542"
-    },
-    {
-      image: Images.productos.ventilador,
-      name: "Aspas para ventilador Mazda B20000, B22000",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542"
-    },
-    {
-      image: Images.productos.escape,
-      name: "Escape resonador mofle",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542"
-    },
-    {
-      image: Images.productos.disco,
-      name: "Carter aceite Mazda 6 2.5, 20009 a 2010 aluminio",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542"
-    },
-    {
-      image: Images.productos.bujia,
-      name: "Kit 5 Bujias Ngk Platino Vw Jetta Mk6 Bora Beetle Motor 2.5l",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542"
-    }
-    // Más productos...
-  ];
   
 
 
@@ -176,6 +132,22 @@ const SecondaryBanner = styled.div`
 
 const HomePage = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [products, setProducts] = useState([]);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await api.get("/products");
+        console.log(response.data);
+        setProducts(response.data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     // Simula la autenticación (puedes usar JWT o cualquier otra lógica)
@@ -184,6 +156,11 @@ const HomePage = () => {
       setIsAuthenticated(true);
     }
   }, []);
+
+  const handleAddToCart = (product) => {
+    addToCart(product); // Agrega el producto al carrito
+    toast.success(`${product.name} ha sido añadido al carrito.`); // Notificación
+  };
   return (
     <Container>
       {/* Header */}
@@ -220,7 +197,7 @@ const HomePage = () => {
 
         {/* Productos */}
 
-        <ProductList title="Ofertas" products={products} />
+        <ProductList title="Ofertas" products={products} onAddToCart={handleAddToCart} />
 
         {/* Brands */}
 
@@ -232,6 +209,8 @@ const HomePage = () => {
 
       {/* Footer */}
       <Footer />
+
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </Container>
   );
 };

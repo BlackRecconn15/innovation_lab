@@ -115,15 +115,10 @@ const SecureButton = styled.button`
 const CartSummary = ({ products, isMobile, visible }) => {
   const navigate = useNavigate();
 
-  const cleanPrice = (price) => {
-    if (typeof price === "string") {
-      return parseFloat(price.replace(/[^0-9.-]+/g, ""));
-    }
-    return price;
-  };
+  
 
   const subtotal = products.reduce(
-    (sum, product) => sum + cleanPrice(product.finalPrice) * product.quantity,
+    (sum, product) => sum + product.finalprice * product.quantity,
     0
   );
   const shipping = subtotal > 1000 ? 0 : 100; // Costo de envío dinámico
@@ -163,7 +158,7 @@ CartSummary.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      finalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      finalprice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         .isRequired,
       quantity: PropTypes.number.isRequired,
     })

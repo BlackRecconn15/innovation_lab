@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import startRate from "../assets/home/icons/star-fill.png"
+import Images from "../config/images";
 
 // Contenedor de los productos
 const ProductsGrid = styled.div`
@@ -125,7 +126,8 @@ const PriceContainer = styled.div`
 
 
 // Contenedor principal
-const ProductList = ({ title, products }) => {
+const ProductList = ({ title, products, onAddToCart  }) => {
+
   return (
     <>
       <div
@@ -151,7 +153,7 @@ const ProductList = ({ title, products }) => {
       </div>
       <ProductsGrid>
         {products.map((product, index) => (
-          <ProductCard key={index}>
+          <ProductCard key={index} onClick={() => onAddToCart(product)}>
             {/* Icono de favorito */}
             <FavoriteIcon>♡</FavoriteIcon>
 
@@ -161,7 +163,7 @@ const ProductList = ({ title, products }) => {
             </TopInfo>
 
             {/* Imagen del producto */}
-            <ProductImage src={product.image} alt={product.name} />
+            <ProductImage  src={Images.productos[product.image_url] } alt={product.name} />
 
             {/* Rating */}
             <RatingDiv>
@@ -172,14 +174,14 @@ const ProductList = ({ title, products }) => {
             </RatingDiv>
 
             {/* Título del producto */}
-            <ProductTitle>{product.name}</ProductTitle>
+            <ProductTitle>{product.description}</ProductTitle>
 
             {/* Precios */}
             <PriceContainer>
               {product.originalPrice && (
-                <div className="original-price">{product.originalPrice}</div>
+                <div className="original-price">${product.originalPrice}</div>
               )}
-              <div className="final-price">{product.finalPrice}</div>
+              <div className="final-price">${product.finalprice}</div>
             </PriceContainer>
           </ProductCard>
         ))}
@@ -193,14 +195,17 @@ ProductList.propTypes = {
   title: PropTypes.string.isRequired,
   products: PropTypes.arrayOf(
     PropTypes.shape({
-      image: PropTypes.string.isRequired,
+      image_url: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
-      finalPrice: PropTypes.string.isRequired,
-      originalPrice: PropTypes.string,
+      finalprice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+          .isRequired,
+      originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+              .isRequired,
       sku: PropTypes.string.isRequired,
       rating: PropTypes.string.isRequired,
     })
   ).isRequired,
+  onAddToCart: PropTypes.func.isRequired,
 };
 
 export default ProductList;

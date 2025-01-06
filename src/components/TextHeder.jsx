@@ -44,15 +44,16 @@ const HeaderSection = ({ title, subtitle, breadcrumb }) => {
     <HeaderSectionContainer>
       <Title>{title}</Title>
       <SubTitle>{subtitle}</SubTitle>
-      <Breadcrumb>
-        {breadcrumb.map((item, index) => (
-          <span key={index}>
-            {item.link ? <a href={item.link}>{item.text}</a> : item.text}
-            {index < breadcrumb.length - 1 && ' > '}
-          </span>
-        ))}
-      </Breadcrumb>
-    </HeaderSectionContainer>
+      {breadcrumb && breadcrumb.length > 0 && ( // Verificación condicional
+        <Breadcrumb>
+          {breadcrumb.map((item, index) => (
+            <span key={index}>
+              {item.link ? <a href={item.link}>{item.text}</a> : item.text}
+              {index < breadcrumb.length - 1 && ' > '}
+            </span>
+          ))}
+        </Breadcrumb>
+      )}</HeaderSectionContainer>
   );
 };
 
@@ -65,8 +66,11 @@ HeaderSection.propTypes = {
           link: PropTypes.string.isRequired,
           text: PropTypes.string.isRequired,
         })
-      ).isRequired,
-    
+      ),
+  };
+
+  HeaderSection.defaultProps = {
+    breadcrumb: null, // Valor por defecto si no se pasa
   };
 
 export default HeaderSection;

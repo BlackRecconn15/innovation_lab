@@ -9,13 +9,14 @@ import appleIMG from "../assets/home/icons/apple.png";
 import facebookIMG from "../assets/home/icons/facebook.png";
 import Logo from "../assets/home/icons/logo.png";
 import MenuIcon from "../assets/home/icons/menu.png";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 // Contenedor principal
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  font-family: 'Inter', 'Poppins', sans-serif;
+  font-family: "Inter", "Poppins", sans-serif;
 `;
 
 // Header
@@ -117,7 +118,7 @@ const Input = styled.input`
   border-radius: 4px;
 
   @media (max-width: 768px) {
-    width: 90%;
+    width: 94%;
   }
 `;
 
@@ -223,17 +224,59 @@ const Switch = styled.label`
 `;
 
 const RegisterBtn = styled.button`
-    background: #000;
-    color: #fff;
-    border: none;
-    width: 115px;
-    height: 27px;
-    border-radius: 5px;
-    margin-left: 5px;
-    cursor: pointer;
+  background: #000;
+  color: #fff;
+  border: none;
+  width: 115px;
+  height: 27px;
+  border-radius: 5px;
+  margin-left: 5px;
+  cursor: pointer;
 `;
 
+const PasswordContainer = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 106%;
 
+  @media (max-width: 768px) {
+    flex-direction: column; /* Cambia el diseño en móviles */
+    align-items: flex-start;
+    width: 100%;
+  }
+`;
+
+const PasswordInput = styled.input`
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding-right: 40px; /* Espacio para el icono */
+
+  @media (max-width: 768px) {
+    width: 90%; /* Ajusta el ancho en móviles */
+    padding-right: 30px; /* Espacio más pequeño para el icono */
+  }
+`;
+
+const TogglePasswordButton = styled.button`
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    top: auto;
+    bottom: 13px; /* Ajusta posición en móviles */
+    transform: none;
+    right: -0rem;
+  }
+`;
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -242,6 +285,8 @@ const LoginPage = () => {
   });
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
   const navigate = useNavigate();
 
   // Maneja los cambios en los inputs
@@ -255,11 +300,11 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("/users/login", formData); 
-      const { access_token, user  } = response.data;
+      const response = await api.post("/users/login", formData);
+      const { access_token, user } = response.data;
 
-      console.log({user});
-      
+      console.log({ user });
+
       // Guarda los datos del usuario en el contexto
       login({ id: user.id, email: user.email, username: user.business_name });
 
@@ -270,7 +315,7 @@ const LoginPage = () => {
         } else {
           sessionStorage.setItem("authToken", access_token);
         }
-  
+
         navigate("/home"); // Redirige al home
       } else {
         setErrorMessage("No se recibió un token válido. Verifica tu conexión.");
@@ -280,7 +325,6 @@ const LoginPage = () => {
       setErrorMessage("Credenciales incorrectas. Inténtalo de nuevo.");
     }
   };
-  
 
   return (
     <Container>
@@ -314,13 +358,28 @@ const LoginPage = () => {
               />
 
               <div style={{ textAlign: "left" }}>Contraseña</div>
-              <Input
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                value={formData.password}
-                onChange={handleInputChange}
-              />
+              <PasswordContainer>
+                {/* Input de contraseña */}
+                <PasswordInput
+                  type={passwordVisible ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  placeholder="Contraseña"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                />
+                {/* Botón para alternar visibilidad */}
+                <TogglePasswordButton
+                  type="button"
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                >
+                  {passwordVisible ? (
+                    <AiOutlineEyeInvisible size={20} />
+                  ) : (
+                    <AiOutlineEye size={20} />
+                  )}
+                </TogglePasswordButton>
+              </PasswordContainer>
 
               {/* Recuérdame */}
               <div style={{ textAlign: "left" }}>
@@ -336,9 +395,7 @@ const LoginPage = () => {
                 </SwitchContainer>
               </div>
 
-              {errorMessage && (
-                <ErrorMessage>{errorMessage}</ErrorMessage>
-              )}
+              {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
 
               <Button type="submit">INICIAR SESIÓN</Button>
             </form>

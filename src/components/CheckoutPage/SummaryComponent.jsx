@@ -231,7 +231,7 @@ const SummaryComponent = ({ products, formData, isMobile, visible  }) => {
       items: products.map((product) => ({
         product_id: product.id,
         quantity: product.quantity,
-        price: cleanPrice(product.finalPrice),
+        price: product.finalprice,
       })),
     };
   
@@ -257,15 +257,9 @@ const SummaryComponent = ({ products, formData, isMobile, visible  }) => {
     }
   };
 
-  const cleanPrice = (price) => {
-    if (typeof price === "string") {
-      return parseFloat(price.replace(/[^0-9.-]+/g, ""));
-    }
-    return price;
-  };
 
   const subtotal = products.reduce(
-    (sum, product) => sum + cleanPrice(product.finalPrice) * product.quantity,
+    (sum, product) => sum + product.finalprice * product.quantity,
     0
   );
 
@@ -333,7 +327,7 @@ SummaryComponent.propTypes = {
   products: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      finalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      finalprice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         .isRequired,
       quantity: PropTypes.number.isRequired,
     })

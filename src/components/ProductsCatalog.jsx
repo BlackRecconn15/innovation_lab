@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import styled from "styled-components";
+import PropTypes from "prop-types";
 import startRate from "../assets/home/icons/star-fill.png";
-import Images from '../config/images';
+import Images from "../config/images";
 
 // Styled Components
 const CatalogContainer = styled.div`
@@ -103,7 +103,6 @@ const TopInfo = styled.div`
   }
 
   @media (max-width: 768px) {
-    
     .sku {
       font-size: 8px;
       color: #666;
@@ -199,12 +198,12 @@ const Advertisement = styled.div`
   }
 `;
 
-const ProductCatalog = ({ products, onSortChange, onAddToCart }) => {
+const ProductCatalog = ({ products, onAddToCart }) => {
   return (
     <CatalogContainer>
       <Header>
         <span>Ordenar por:</span>
-        <SortSelect onChange={(e) => onSortChange(e.target.value)}>
+        <SortSelect>
           <option value="lowest-price">Menor precio</option>
           <option value="highest-price">Mayor precio</option>
           <option value="best-rating">Mejor calificación</option>
@@ -218,7 +217,10 @@ const ProductCatalog = ({ products, onSortChange, onAddToCart }) => {
             <TopInfo>
               <span className="sku">SKU: {product.sku}</span>
             </TopInfo>
-            <ProductImage src={product.image} alt={product.name} />
+            <ProductImage
+              src={Images.productos[product.image_url]}
+              alt={product.name}
+            />
             <RatingDiv>
               <span className="rating">
                 <img className="rating-icon" src={startRate} alt="Star" />
@@ -228,9 +230,9 @@ const ProductCatalog = ({ products, onSortChange, onAddToCart }) => {
             <ProductTitle>{product.name}</ProductTitle>
             <PriceContainer>
               {product.originalPrice && (
-                <div className="original-price">{product.originalPrice}</div>
+                <div className="original-price">${product.originalPrice}</div>
               )}
-              <div className="final-price">{product.finalPrice}</div>
+              <div className="final-price">${product.finalprice}</div>
             </PriceContainer>
           </ProductCard>
         ))}
@@ -248,13 +250,14 @@ ProductCatalog.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       sku: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      rating: PropTypes.number.isRequired,
-      originalPrice: PropTypes.string,
-      finalPrice: PropTypes.string.isRequired,
+      image_url: PropTypes.string.isRequired,
+      rating: PropTypes.string.isRequired,
+      finalprice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
+      originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+        .isRequired,
     })
   ).isRequired,
-  onSortChange: PropTypes.func.isRequired,
   onAddToCart: PropTypes.func.isRequired,
 };
 

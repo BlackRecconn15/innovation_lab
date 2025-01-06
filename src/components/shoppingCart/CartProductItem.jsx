@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import Images from "../../config/images";
 
 const ProductContainer = styled.div`
   display: flex;
@@ -17,8 +18,8 @@ const ProductContainer = styled.div`
 
   .container3 {
     display: flex;
-    flex-direction:row;
-    gap:6rem;
+    flex-direction: row;
+    gap: 6rem;
   }
 
   @media (max-width: 768px) {
@@ -111,11 +112,11 @@ const ProductInfo = styled.div`
   .containerMovil {
     display: none;
 
-    .priceContainer{
+    .priceContainer {
       display: none;
     }
 
-    .stockContainer{
+    .stockContainer {
       display: none;
     }
   }
@@ -180,18 +181,18 @@ const ProductInfo = styled.div`
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-      margin-top:1rem;
+      margin-top: 1rem;
 
-      .priceContainer{
-      display: flex;
-      flex-direction: column;
-    }
+      .priceContainer {
+        display: flex;
+        flex-direction: column;
+      }
 
-    .stockContainer{
-      display: flex;
-      flex-direction:column;
-      align-items:center;
-    }
+      .stockContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     .actions {
@@ -333,15 +334,16 @@ const CartProductItem = ({ product, onQuantityChange, onRemoveProduct }) => {
     }
   };
 
-  // Corregir el cálculo del precio
-  const price = parseFloat(product.finalPrice.replace(/[^0-9.]/g, "")) || 0;
+
+
+  console.log(product.stock);
 
   return (
     <ProductContainer>
       <ProductDetails>
         <div className="sku">SKU: {product.sku}</div>
         <div className="container2">
-          <ProductImage src={product.image} alt={product.name} />
+          <ProductImage src={Images.productos[product.image_url]} alt={product.name} />
           <ProductInfo>
             <div className="name">{product.name}</div>
             <div className="actions">
@@ -356,7 +358,7 @@ const CartProductItem = ({ product, onQuantityChange, onRemoveProduct }) => {
             <div className="containerMovil">
               <div className="priceContainer">
                 <div className="price">
-                  ${(price * product.quantity).toFixed(2)} MXN
+                  ${(product.finalprice * product.quantity).toFixed(2)} MXN
                 </div>
                 <div className="shipping">
                   {product.quantity > 2
@@ -405,7 +407,7 @@ const CartProductItem = ({ product, onQuantityChange, onRemoveProduct }) => {
 
         <PriceContainer>
           <div className="price">
-            ${(price * product.quantity).toFixed(2)} MXN
+            ${(product.finalprice * product.quantity).toFixed(2)} MXN
           </div>
           <div className="shipping">
             {product.quantity > 2
@@ -428,10 +430,13 @@ const CartProductItem = ({ product, onQuantityChange, onRemoveProduct }) => {
 CartProductItem.propTypes = {
   product: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
+    image_url: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     sku: PropTypes.string.isRequired,
-    finalPrice: PropTypes.string.isRequired,
+    finalprice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
+    originalPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      .isRequired,
     quantity: PropTypes.number.isRequired,
     stock: PropTypes.number.isRequired,
   }).isRequired,

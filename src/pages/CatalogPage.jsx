@@ -4,117 +4,15 @@ import Footer from "../components/Footer";
 import ProductCatalog from "../components/ProductsCatalog";
 import FilterMenu from "../components/Filters";
 import HeaderSection from "../components/TextHeder";
-import Images from "../config/images";
-import { useContext, useState } from "react";
-import { CartContext } from "../context/CartContext";
+import { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext";
 import { ToastContainer, toast } from "react-toastify"; 
 import 'react-toastify/dist/ReactToastify.css'; 
+import api from "../services/api";
+import { useLocation } from "react-router-dom";
 
 
   // Datos de productos
-  const products = [
-    {
-      id: 1,
-      image: Images.productos.radiador,
-      name: "Radiador agricola tractor Case 580 k Aluminio/Aluminio TM",
-      sku: "DCAT001980",
-      rating: "4.9",
-      originalPrice: "1,842",
-      finalPrice: "1,542",
-      quantity: 10
-    },
-    {
-      id: 2,
-      image: Images.productos.ventilador,
-      name: "Aspas para ventilador Mazda B20000, B22000",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542",
-      quantity: 10
-    },
-    {
-      id: 3,
-      image: Images.productos.escape,
-      name: "Escape resonador mofle",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542",
-      quantity: 10
-    },
-    {
-      id: 4,
-      image: Images.productos.disco,
-      name: "Carter aceite Mazda 6 2.5, 20009 a 2010 aluminio",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "$1,842",
-      finalPrice: "$1,542",
-      quantity: 10
-    },
-    {
-      id: 5,
-      image: Images.productos.bujia,
-      name: "Kit 5 Bujias Ngk Platino Vw Jetta Mk6 Bora Beetle Motor 2.5l",
-      price: "$1,842",
-      sku: "DCAT001960",
-      rating: "4.9",
-      originalPrice: "1,842",
-      finalPrice: "1,542",
-      quantity: 10
-    },
-    {
-      id: 6,
-        image: Images.productos.bujia,
-        name: "Kit 5 Bujias Ngk Platino Vw Jetta Mk6 Bora Beetle Motor 2.5l",
-        price: "$1,842",
-        sku: "DCAT001960",
-        rating: "4.9",
-        originalPrice: "$1,842",
-        finalPrice: "$1,542",
-        quantity: 10
-    },
-    {
-      id: 7,
-        image: Images.productos.bujia,
-        name: "Kit 5 Bujias Ngk Platino Vw Jetta Mk6 Bora Beetle Motor 2.5l",
-        price: "$1,842",
-        sku: "DCAT001960",
-        rating: "4.9",
-        originalPrice: "$1,842",
-        finalPrice: "$1,542",
-        quantity: 10
-    },
-    {
-      id: 8,
-        image: Images.productos.bujia,
-        name: "Kit 5 Bujias Ngk Platino Vw Jetta Mk6 Bora Beetle Motor 2.5l",
-        price: "$1,842",
-        sku: "DCAT001960",
-        rating: "4.9",
-        originalPrice: "1,842",
-        finalPrice: "1,542",
-        quantity: 10
-    },
-    {
-      id: 9,
-        image: Images.productos.bujia,
-        name: "Kit 5 Bujias Ngk Platino Vw Jetta Mk6 Bora Beetle Motor 2.5l",
-        price: "$1,842",
-        sku: "DCAT001960",
-        rating: "4.9",
-        originalPrice: "1,842",
-        finalPrice: "1,542",
-        quantity: 10
-    },
-    // Más productos...
-  ];
-  
-
 
 const Container = styled.div`
     display: flex;
@@ -140,7 +38,8 @@ const Container2 = styled.div`
 
 const CatalogPage = () => {
 
-    const { addToCart } = useContext(CartContext); // Accede a addToCart desde el contexto
+    const { addToCart } = useCart(); // Accede a addToCart desde el contexto
+    const location = useLocation();
 
     // Cuando un producto es agregado
     const handleAddToCart = (product) => {
@@ -150,8 +49,12 @@ const CatalogPage = () => {
     const [arrivesTomorrow, setArrivesTomorrow] = useState(false);
     const [freeShipping, setFreeShipping] = useState(false);
     const [officialStores, setOfficialStores] = useState(false);
-    //const [setSortOption] = useState('lowest-price');
+    const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  // Extraer el término de búsqueda de la URL
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get("search") || "";
 
     // State for checkboxes
     const [brands, setBrands] = useState({
@@ -169,15 +72,38 @@ const CatalogPage = () => {
       }));
     };
 
+    useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          setLoading(true);
+          const response = await api.get("/products", {
+            params: { search: searchQuery },
+          });
+          setProducts(response.data);
+        } catch (error) {
+          console.error("Error fetching products:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchProducts();
+    }, [searchQuery]); 
+
+    
   return (
     <Container>
       {/* Header */}
       <Header />
 
-        <HeaderSection title="Bujia Mazda 3 de 2015" subtitle="680,896 resultados" breadcrumb={[
-          { text: 'Motor', link: '#' },
-          { text: 'bujías', link: '#bujias' },
-        ]} />
+      <HeaderSection
+        title="Catálogo de Productos"
+        subtitle={
+          searchQuery
+            ? `Resultados para "${searchQuery}": ${products.length} encontrados`
+            : `${products.length} resultados encontrados`
+        }
+      />
 
         <Container2>
 
@@ -196,10 +122,13 @@ const CatalogPage = () => {
             ]}
         />
 
-        <ProductCatalog
-          products={products}
-          onAddToCart={handleAddToCart} // Pasa el método como prop
+      {loading ? (
+        <p>Cargando productos...</p>
+      ) : (
+        <ProductCatalog products={products} 
+        onAddToCart={handleAddToCart}
         />
+      )}
 
         </Container2>
 

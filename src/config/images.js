@@ -29,6 +29,9 @@ import homeIMG from "../assets/home/icons/home-2.png"
 import catalogIMG from "../assets/home/icons/catalog.png"
 import favIMG from "../assets/home/icons/heart.png"
 import profileIMG from "../assets/home/icons/profile.png"
+import amortiguador from "../assets/home/productos/amortiguador.png"
+import filtro from "../assets/home/productos/filtro.png"
+import escape2 from "../assets/home/productos/escape2.png"
 
 
 const Images = {
@@ -58,7 +61,10 @@ const Images = {
     disco: discoIMG,
     escape: escapeIMG,
     ventilador: ventiladorIMG,
-    producto1: producto1
+    producto1: producto1,
+    amortiguador: amortiguador,
+    filtro: filtro,
+    escape2: escape2
   },
   brands: {
     brand1:brand1,
